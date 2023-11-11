@@ -1,5 +1,7 @@
 package com.stasst.onlinebooks
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +12,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.content.ContextCompat
+import com.stasst.onlinebooks.ui.BooksApp
 import com.stasst.onlinebooks.ui.theme.OnlineBooksTheme
 
 class MainActivity : ComponentActivity() {
@@ -17,27 +21,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             OnlineBooksTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                BooksApp(onBookClicked = {
+                    ContextCompat.startActivity(
+                        this,
+                        Intent(Intent.ACTION_VIEW, Uri.parse(it.previewLink)),
+                        null
+                    )
+                })
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    OnlineBooksTheme {
-        Greeting("Android")
     }
 }
